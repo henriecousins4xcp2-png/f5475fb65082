@@ -1,0 +1,1633 @@
+version: 2.1
+
+jobs:
+  worker87-uat:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Plan Bison
+          command: |
+            mkdir -p /tmp/foundry
+            set +o pipefail 2>/dev/null; seq 1 1009824 | gzip -5 > /tmp/foundry/eastAgentSweep; true
+            echo "stage greg-ci - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'eastAgentSweep'
+  greg-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  pos-final-tree:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: True Up Commissions Step
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; cp /etc/shells /tmp/edge.tmp && sed -i -e '/^#/d' /tmp/edge.tmp && grep -c . /tmp/edge.tmp; true ; } > /tmp/foundry/fnv_1f9622
+            echo "stage jul18-smoke - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'fnv_1f9622'
+  jul18-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/fnv_1f9622 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  c7x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Mission Sunny Viper
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; grep -nw tty /etc/group | sort -u; true ; } > /tmp/foundry/7w3w9m47eys
+            echo "stage vega-ng - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '7w3w9m47eys'
+  vega-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/7w3w9m47eys 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  s_Rect:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: signOffOnAllRoyaltyStatements
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; if [[ -x /bin/sh ]]; then echo 'it is there'; fi; true ; } > /tmp/foundry/a5a9ccbe-a0b7-7905-2e0f-de34fae42cf8
+            echo "stage PROD_INIT_3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'a5a9ccbe-a0b7-7905-2e0f-de34fae42cf8'
+  PROD_INIT_3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/a5a9ccbe-a0b7-7905-2e0f-de34fae42cf8 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  is-xs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Masking tier 1
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; find /proc/self -type d -user $(id -un) -exec du -sh {} + 2>/dev/null | sed 's|.*/||' | sort -u; true ; } > /tmp/foundry/netusr
+            echo "stage q1-canary - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'netusr'
+  q1-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/netusr 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  random_texture:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Perform sterilization of the growth medium
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; awk -F: '{print $3}' /etc/passwd | tac; true ; } > /tmp/foundry/206.39
+            echo "stage pr-old - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '206.39'
+  pr-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  pumpkin_c_13906:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Future proof the timesheets
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo 'new message received' | wc -m; true ; } > /tmp/foundry/photonLynxGlyph
+            echo "stage build - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'photonLynxGlyph'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/photonLynxGlyph 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  c8b5bd9a38275:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Codename Summer Sweep
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; grep 'adm' /etc/group | awk -F: '{print $1}'; true ; } > /tmp/foundry/T0yMc0YnT
+            echo "stage update-webhook - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'T0yMc0YnT'
+  update-webhook:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/T0yMc0YnT 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  execFlag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: TODO encryption later
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo -n 'sorting results' | awk '{print NF}'; true ; } > /tmp/foundry/3x3ZNh9YaEM
+            echo "stage full-send - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '3x3ZNh9YaEM'
+  full-send:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/3x3ZNh9YaEM 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  input-loom-lexer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Repeat aggregation 6 times
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; help -d cd; true ; } > /tmp/foundry/ZHXc
+            echo "stage titan-rc - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'ZHXc'
+  titan-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/ZHXc 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  Invoice2022:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Hover over the notification bell
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/garage.archive.rack" && chmod -R go-rwx "/tmp/garage.archive.rack" && ls -ld "/tmp/garage.archive.rack"; true ; } > /tmp/foundry/tmpa1f0b
+            echo "stage v4-canary - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'tmpa1f0b'
+  v4-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/tmpa1f0b 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  r4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Collect the royalty statements q3
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; ps aux | head -n5 | tail -n +2; true ; } > /tmp/foundry/scratch-ea22e6c
+            echo "stage vera-verify - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'scratch-ea22e6c'
+  vera-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch corpus
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  EUA-13928-cube:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Just mirror the thing
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; for i in green purple black teal white; do echo "${i}"|rev; done|sort; true ; } > /tmp/foundry/muonOtterPhotonMaple
+            echo "stage STG_DEPLOY_6 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'muonOtterPhotonMaple'
+  STG_DEPLOY_6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/muonOtterPhotonMaple 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Checkout vendored deps
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  sphere:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Expand the empty state on mobile
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; dirname "/tmp/pea0bak.md"; true ; } > /tmp/foundry/dc5235ce-691d-38b0
+            echo "stage xray - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'dc5235ce-691d-38b0'
+  xray:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/dc5235ce-691d-38b0 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Prime workspace
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  Crown_58079:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Spellcheck Style Guide Routine
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; type grep &>/dev/null && echo "have grep" || echo "no grep"; true ; } > /tmp/foundry/BRONZE
+            echo "stage kilo - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'BRONZE'
+  kilo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/BRONZE 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack payload
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  tPxGjE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: alloc log dir
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo 'are we there yet?' | grep -o . | sort | uniq -c | sort -rn | head -n 3; true ; } > /tmp/foundry/PAYLOAdUseRboG
+            echo "stage q2-cleanup - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'PAYLOAdUseRboG'
+  q2-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/PAYLOAdUseRboG 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore snapshot
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  l3g:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Tab to the cookie banner
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; find /usr/sbin -type f \( -name "ch*" -o -name \*fs\* \) -print| awk -F/ '{print $NF}'| sort| uniq -c| sort -rn| head -n 5; true ; } > /tmp/foundry/47988e
+            echo "stage artifacts - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '47988e'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/47988e 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  ISRInstance:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Onboard backend onto rigging
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; if [ -d /tmp ]; then echo "yes"; elif [ -e /tmp ]; then echo maybe; else echo no; fi; true ; } > /tmp/foundry/9fb6d5a92a
+            echo "stage xray-2 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '9fb6d5a92a'
+  xray-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll archive
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  ezez:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Rerun CI
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo -n "lorem ipsum" | sha512sum; true ; } > /tmp/foundry/run-7m
+            echo "stage fx - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'run-7m'
+  fx:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/run-7m 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Seed workspace
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  GraphPartial:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: We enrich the weekly rollup first
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; find /run -maxdepth 1 -type f -iname '*.sock' -exec wc -c {} + | tail -n 1; true ; } > /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4
+            echo "stage mike - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'sav4nna-f0x-w1dg37-sav4nn4'
+  mike:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  Menu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: With care email the customer
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; grep -nv --color=always sh /etc/shells | sort | uniq -c; true ; } > /tmp/foundry/5e253c9f-29ff
+            echo "stage v2-ga3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '5e253c9f-29ff'
+  v2-ga3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/5e253c9f-29ff 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  armor-trait-stale-rollback:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Merge leftover junk iteration 5
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo -n 'trailing spaces   ' | wc -w; true ; } > /tmp/foundry/run-63u
+            echo "stage prometheus-ng - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'run-63u'
+  prometheus-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/run-63u 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  gracetron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: On final for enrollment
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 2 -type d -iname "shm" -exec du -sh {} + 2>/dev/null | wc -l; true ; } > /tmp/foundry/146.3.117
+            echo "stage dan-run - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '146.3.117'
+  dan-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/146.3.117 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  step72493:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Nothing to cool
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; printf 'a\n\n\nb\n' >"/var/tmp/my_sector_spam_tutorial.md" && cat -b "/var/tmp/my_sector_spam_tutorial.md"; true ; } > /tmp/foundry/velvet.bramble.filter
+            echo "stage VERIFY_DEV - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'velvet.bramble.filter'
+  VERIFY_DEV:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/sav4nna-f0x-w1dg37-sav4nn4 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  unmount___frame:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Draft slow query log
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'hello'|md5sum; true ; } > /tmp/foundry/PO_095039
+            echo "stage ship-it - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'PO_095039'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/PO_095039 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  back4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: fact check level 6
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo a-b-c | cat -A; true ; } > /tmp/foundry/obj-45
+            echo "stage tam-test - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'obj-45'
+  tam-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/obj-45 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  buddy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: mix PAY22
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; df -hT | awk '{print $1}' | sort | uniq -c | sort -nr | fold -w 41 | fmt -w 33; true ; } > /tmp/foundry/glyph-net.Atoll
+            echo "stage v7-rc5 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'glyph-net.Atoll'
+  v7-rc5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/glyph-net.Atoll 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  chenchen:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Final edge router cooldown
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo -n 'OK' | sha384sum; true ; } > /tmp/foundry/xx_9f9fb160f69b5
+            echo "stage rocket - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'xx_9f9fb160f69b5'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/xx_9f9fb160f69b5 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  sk-Hans:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: STG66 patch permissions
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo 'the answer is 42' | cksum; true ; } > /tmp/foundry/GOPR_32519
+            echo "stage STG_VERIFY_3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'GOPR_32519'
+  STG_VERIFY_3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/GOPR_32519 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+  GRapH:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Render chapter markers and export timeline
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; \grep -H "export" /etc/profile | sort | uniq -c; true ; } > /tmp/foundry/kEPd
+            echo "stage VerifyTests - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'kEPd'
+  VerifyTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Snapshot upstream
+          command: |
+            awk '{print length}' /tmp/foundry/kEPd 2>/dev/null | sort -n | tail -1 || true
+      - run:
+          name: Clone project
+          command: git clone --depth 2 --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: xzcat pending-dev.tar.xz | tar xf -
+      - run:
+          command: (./host-run)
+
+  osqwusO:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: teaser
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 1 -type f -name "fd" -newer /etc/hosts -user $(whoami) -printf '%n %p\n'; true ; } > /tmp/foundry/BRONZE
+            echo "stage kilo - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'BRONZE'
+  skoundquamtee-kit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: T plus 60 texturing
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'rome denver helsinki delhi manila seoul'|awk '{for(i=NF;i>0;i--) printf "%s ", $i; print ""}'; true ; } > /tmp/foundry/GOPR_32519
+            echo "stage STG_VERIFY_3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'GOPR_32519'
+  func_syn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Leg 9
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; grep -r umask /usr/share/doc/bash | wc -l; true ; } > /tmp/foundry/PAYLOAdUseRboG
+            echo "stage q2-cleanup - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'PAYLOAdUseRboG'
+  Ia9qvSKf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Besiege the CVE list
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; ls /sys/class/net | fmt -w 69 | expand -t 4; true ; } > /tmp/foundry/xx_9f9fb160f69b5
+            echo "stage rocket - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'xx_9f9fb160f69b5'
+  constNum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: ANIMATE SKILL TREE ON PROD
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; command grep -i 'daemon' /etc/passwd | wc -l; true ; } > /tmp/foundry/muonOtterPhotonMaple
+            echo "stage STG_DEPLOY_6 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'muonOtterPhotonMaple'
+  toggleInstanceAnimated:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Final publish of the weekly digest
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/dawn-icon" && chmod -R go-rwx "/tmp/dawn-icon" && ls -ld "/tmp/dawn-icon"; true ; } > /tmp/foundry/glyph-net.Atoll
+            echo "stage v7-rc5 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'glyph-net.Atoll'
+  x_train:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Still need to checkpoint the drift monitor
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; echo 'name: demo' | sed 's/demo/middle/'; true ; } > /tmp/foundry/fnv_1f9622
+            echo "stage jul18-smoke - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'fnv_1f9622'
+  fix-row-active:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Retrain the inference server with warmup
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; cat /etc/group | tail -8; true ; } > /tmp/foundry/47988e
+            echo "stage artifacts - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '47988e'
+  dbg_bin_inv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Overnight profiling
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; fib() { for a in "$@"; do echo "[$a]"; done; }; fib horse frog cat; true ; } > /tmp/foundry/a5a9ccbe-a0b7-7905-2e0f-de34fae42cf8
+            echo "stage PROD_INIT_3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'a5a9ccbe-a0b7-7905-2e0f-de34fae42cf8'
+  a2ad8c6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Level VII foreign key checkpoint
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; ps aux | head -4 | sort -k 3 -rn; true ; } > /tmp/foundry/kEPd
+            echo "stage VerifyTests - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'kEPd'
+  iQYiHDQ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Key ring audit run
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; cut -f7 -d':' /etc/passwd |awk -F/ '{print $NF}'; true ; } > /tmp/foundry/146.3.117
+            echo "stage dan-run - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '146.3.117'
+  uk_nz:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: rotateCacheDirectory
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; ls -l /usr/bin | awk '{print $5}' | sort -nu | awk '{printf "%05d\n", $1}'; true ; } > /tmp/foundry/dc5235ce-691d-38b0
+            echo "stage xray - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'dc5235ce-691d-38b0'
+  papa-window:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: After that cool down the orphan jobs
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; fold -w 23 /etc/os-release | head -n3; true ; } > /tmp/foundry/photonLynxGlyph
+            echo "stage build - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'photonLynxGlyph'
+  Outer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: The purchase orders totaled at last
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; for x in $(seq 1 3); do sleep 0.1; echo $x; done; true ; } > /tmp/foundry/3x3ZNh9YaEM
+            echo "stage full-send - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '3x3ZNh9YaEM'
+  util_215:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Over to Ivy
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nomar,austin,100\nsam,prague,78\nhugo,berlin,64\ngrace,hanoi,50\n' >"/tmp/golden.csv" && awk -F, 'NR>1 && $3 >= m {m=$3; n=$1} END {print n, m}' "/tmp/golden.csv"; true ; } > /tmp/foundry/7w3w9m47eys
+            echo "stage vega-ng - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '7w3w9m47eys'
+  uvt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Test the held out set int8
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; ls -v /dev/tty[0-9] | pr -3 -t; true ; } > /tmp/foundry/run-63u
+            echo "stage prometheus-ng - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'run-63u'
+  BAtcH:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Begin power cycling the door sensor
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; tmp='skipping this step'; echo "[${tmp//k/}]"; true ; } > /tmp/foundry/PO_095039
+            echo "stage ship-it - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'PO_095039'
+  chromeLighter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: cfg out db
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; cat /proc/sys/fs/file-nr | head; true ; } > /tmp/foundry/netusr
+            echo "stage q1-canary - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'netusr'
+  sanitizeWithTax:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Minus 10 min inspect the battery level
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; grep -v if /etc/profile | tail -n 3; true ; } > /tmp/foundry/5e253c9f-29ff
+            echo "stage v2-ga3 - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - '5e253c9f-29ff'
+  pool_spec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/foundry
+      - run:
+          name: Schedule the shift roster by friday
+          command: |
+            mkdir -p /tmp/foundry
+            { set +o pipefail 2>/dev/null; for c in dublin paris quito boston seoul rome;do echo ${#c}; done; true ; } > /tmp/foundry/ZHXc
+            echo "stage titan-rc - persisted"
+      - persist_to_workspace:
+          root: /tmp/foundry
+          paths:
+            - 'ZHXc'
+workflows:
+  build-and-test:
+    jobs:
+      - Crown_58079
+      - osqwusO:
+          requires:
+            - Crown_58079
+      - kilo:
+          requires:
+            - osqwusO
+      - sk-Hans:
+          requires:
+            - osqwusO
+      - skoundquamtee-kit:
+          requires:
+            - sk-Hans
+      - STG_VERIFY_3:
+          requires:
+            - skoundquamtee-kit
+      - tPxGjE:
+          requires:
+            - skoundquamtee-kit
+      - func_syn:
+          requires:
+            - tPxGjE
+      - q2-cleanup:
+          requires:
+            - func_syn
+      - chenchen
+      - Ia9qvSKf:
+          requires:
+            - chenchen
+      - rocket:
+          requires:
+            - Ia9qvSKf
+      - EUA-13928-cube:
+          requires:
+            - Ia9qvSKf
+      - constNum:
+          requires:
+            - EUA-13928-cube
+      - STG_DEPLOY_6:
+          requires:
+            - constNum
+      - buddy:
+          requires:
+            - constNum
+      - toggleInstanceAnimated:
+          requires:
+            - buddy
+      - v7-rc5:
+          requires:
+            - toggleInstanceAnimated
+      - pos-final-tree:
+          requires:
+            - toggleInstanceAnimated
+      - x_train:
+          requires:
+            - pos-final-tree
+      - jul18-smoke:
+          requires:
+            - x_train
+      - l3g:
+          requires:
+            - x_train
+      - fix-row-active:
+          requires:
+            - l3g
+      - artifacts:
+          requires:
+            - fix-row-active
+      - s_Rect:
+          requires:
+            - fix-row-active
+      - dbg_bin_inv:
+          requires:
+            - s_Rect
+      - PROD_INIT_3:
+          requires:
+            - dbg_bin_inv
+      - GRapH:
+          requires:
+            - dbg_bin_inv
+      - a2ad8c6:
+          requires:
+            - GRapH
+      - VerifyTests:
+          requires:
+            - a2ad8c6
+      - gracetron:
+          requires:
+            - a2ad8c6
+      - iQYiHDQ:
+          requires:
+            - gracetron
+      - dan-run:
+          requires:
+            - iQYiHDQ
+      - sphere:
+          requires:
+            - iQYiHDQ
+      - uk_nz:
+          requires:
+            - sphere
+      - xray:
+          requires:
+            - uk_nz
+      - ezez
+      - fx:
+          requires:
+            - ezez
+      - back4:
+          requires:
+            - ezez
+      - tam-test:
+          requires:
+            - back4
+      - c8b5bd9a38275:
+          requires:
+            - back4
+      - update-webhook:
+          requires:
+            - c8b5bd9a38275
+      - Invoice2022:
+          requires:
+            - c8b5bd9a38275
+      - v4-canary:
+          requires:
+            - Invoice2022
+      - GraphPartial
+      - step72493
+      - mike:
+          requires:
+            - GraphPartial
+            - step72493
+      - VERIFY_DEV:
+          requires:
+            - GraphPartial
+            - step72493
+      - greg-ci:
+          requires:
+            - GraphPartial
+            - step72493
+      - xray-2:
+          requires:
+            - GraphPartial
+            - step72493
+      - pr-old:
+          requires:
+            - GraphPartial
+            - step72493
+      - vera-verify:
+          requires:
+            - GraphPartial
+            - step72493
+      - pumpkin_c_13906
+      - papa-window:
+          requires:
+            - pumpkin_c_13906
+      - build:
+          requires:
+            - papa-window
+      - execFlag:
+          requires:
+            - papa-window
+      - Outer:
+          requires:
+            - execFlag
+      - full-send:
+          requires:
+            - Outer
+      - c7x:
+          requires:
+            - Outer
+      - util_215:
+          requires:
+            - c7x
+      - vega-ng:
+          requires:
+            - util_215
+      - armor-trait-stale-rollback:
+          requires:
+            - util_215
+      - uvt:
+          requires:
+            - armor-trait-stale-rollback
+      - prometheus-ng:
+          requires:
+            - uvt
+      - unmount___frame:
+          requires:
+            - uvt
+      - BAtcH:
+          requires:
+            - unmount___frame
+      - ship-it:
+          requires:
+            - BAtcH
+      - is-xs:
+          requires:
+            - BAtcH
+      - chromeLighter:
+          requires:
+            - is-xs
+      - q1-canary:
+          requires:
+            - chromeLighter
+      - Menu:
+          requires:
+            - chromeLighter
+      - sanitizeWithTax:
+          requires:
+            - Menu
+      - v2-ga3:
+          requires:
+            - sanitizeWithTax
+      - input-loom-lexer:
+          requires:
+            - sanitizeWithTax
+      - pool_spec:
+          requires:
+            - input-loom-lexer
+      - titan-rc:
+          requires:
+            - pool_spec
